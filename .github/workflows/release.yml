@@ -2,8 +2,9 @@ name: Release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,22 +15,58 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "9.0.x"
 
+      - name: Read plugin version
+        id: version
+        shell: pwsh
+        run: |
+          $version = (Get-Content .\plugin.json -Raw | ConvertFrom-Json).Version
+          if ([string]::IsNullOrWhiteSpace($version)) {
+            throw "plugin.json does not contain a Version value."
+          }
+
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=v$version" >> $env:GITHUB_OUTPUT
+          "zip=Flow.Launcher.Plugin.ChatGPTBridge-$version.zip" >> $env:GITHUB_OUTPUT
+
+      - name: Check whether version is already released
+        id: release-check
+        shell: pwsh
+        run: |
+          $tag = "${{ steps.version.outputs.tag }}"
+          git fetch --tags --force
+          git show-ref --verify --quiet "refs/tags/$tag"
+
+          if ($LASTEXITCODE -eq 0) {
+            "exists=true" >> $env:GITHUB_OUTPUT
+            Write-Host "$tag already exists. Nothing to release."
+          }
+          else {
+            "exists=false" >> $env:GITHUB_OUTPUT
+          }
+
       - name: Publish
+        if: steps.release-check.outputs.exists == 'false'
         shell: pwsh
         run: dotnet publish .\Flow.Launcher.Plugin.ChatGPTBridge.csproj -c Release -r win-x64 --no-self-contained -o .\artifacts\publish
 
       - name: Package
+        if: steps.release-check.outputs.exists == 'false'
         shell: pwsh
-        run: Compress-Archive -Path .\artifacts\publish\* -DestinationPath .\artifacts\ChatGPTBridge-${{ github.ref_name }}.zip -Force
+        run: Compress-Archive -Path .\artifacts\publish\* -DestinationPath ".\artifacts\${{ steps.version.outputs.zip }}" -Force
 
       - name: Create GitHub release
-        shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release create "${{ github.ref_name }}" ".\artifacts\ChatGPTBridge-${{ github.ref_name }}.zip" --generate-notes --title "${{ github.ref_name }}"
-
+        if: steps.release-check.outputs.exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ steps.version.outputs.tag }}
+          generate_release_notes: true
+          files: artifacts/${{ steps.version.outputs.zip }}

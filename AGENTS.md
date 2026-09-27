@@ -35,6 +35,7 @@ If documents conflict, state the conflict explicitly instead of silently choosin
 
 - Keep the plugin as one C# project unless a concrete requirement justifies another project.
 - Target `Flow.Launcher.Plugin` 5.3.2 and preserve compatibility with Flow Launcher 2.1.4+.
+- `plugin.json` `Version` is the release version source of truth. The release workflow creates the corresponding `v<Version>` tag and GitHub Release from `main`.
 - Existing user-facing strings are English; keep new strings consistent unless the product requirements change.
 - Prefer small concrete services over framework-style abstractions.
 - For Flow Launcher integration behavior, check the official Flow documentation and upstream Flow Launcher source before introducing a custom implementation.

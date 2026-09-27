@@ -8,11 +8,10 @@
   "Name": "ChatGPT Bridge",
   "Description": "Send prompts from Flow Launcher to ChatGPT Web.",
   "Author": "Akilaydin",
-  "Version": "0.1.0",
+  "Version": "0.1.2",
   "Language": "csharp",
   "Website": "https://github.com/Akilaydin/Flow.Launcher.Plugin.ChatGPTBridge",
   "IcoPath": "Images/icon.png",
   "ExecuteFileName": "Flow.Launcher.Plugin.ChatGPTBridge.dll",
   "MinimumAppVersion": "2.1.4"
 }
-
