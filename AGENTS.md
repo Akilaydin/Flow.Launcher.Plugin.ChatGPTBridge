@@ -8,9 +8,9 @@ Use the project documents as sources of truth. Do not duplicate their full conte
 
 ## Project documents
 
-- `README.md` — project entry point, prerequisites, configuration.
-- `PRODUCT.md` — product vision, users, behavior, scope, requirements, UX rules and non-goals.
-- `ARCHITECTURE.md` — technical structure, component boundaries, runtime flow, data model, integrations, constraints and technical decisions.
+- `README.md` — project entry point, usage and user-facing requirements.
+- `PRODUCT.md` — current implemented product behavior and UX rules.
+- `ARCHITECTURE.md` — current technical structure, component responsibilities, runtime flow and invariants.
 
 Before a nontrivial change, read the relevant sections of these documents and inspect the current code they describe.
 
@@ -19,24 +19,22 @@ If documents conflict, state the conflict explicitly instead of silently choosin
 ## Working rules
 
 - Do not present guesses as established project decisions.
-- If a required decision is missing, mark it as an assumption or open question.
+- If a required decision is missing, do not invent one silently.
 - Prefer the smallest implementation that satisfies the documented requirement.
-- Do not expand the current product scope with speculative or "useful later" functionality.
+- Do not add speculative or "useful later" behavior that was not requested or documented.
 - Reuse existing project patterns before introducing new abstractions.
 - Keep changes local to the component that owns the responsibility.
 - Do not change public behavior merely to simplify implementation unless the product documentation is updated accordingly.
-- When a change alters product behavior, scope or UX, update `PRODUCT.md`.
+- When a change alters implemented product behavior or UX, update `PRODUCT.md`.
+- `PRODUCT.md` must describe only behavior that currently exists in the implementation; do not use it for backlog, future plans, non-goals or missing features.
 - When a change alters system boundaries, data flow, technical invariants or an accepted technical decision, update `ARCHITECTURE.md`.
-- When setup, prerequisites or run instructions change, update `README.md`.
+- When usage or user-facing requirements change, update `README.md`.
+- Keep repository documentation about the current repository state; do not add roadmap or backlog material unless a dedicated document is explicitly requested.
 
 ## Repository-specific conventions
 
-<!-- Add only conventions that really apply to this repository. Examples: naming, commit format, migration policy, testing rules, generated files. -->
-
-- [Add repository-specific conventions here.]
-
-## Tooling / MCP routing
-
-<!-- Add repository-specific tool routing only when needed. Keep it out of this file if the project has no special requirements. -->
-
-- [Add repository-specific tool instructions here, or remove this section.]
+- Keep the plugin as one C# project unless a concrete requirement justifies another project.
+- Target `Flow.Launcher.Plugin` 5.3.2 and preserve compatibility with Flow Launcher 2.1.4+.
+- Existing user-facing strings are English; keep new strings consistent unless the product requirements change.
+- Prefer small concrete services over framework-style abstractions.
+- For Flow Launcher integration behavior, check the official Flow documentation and upstream Flow Launcher source before introducing a custom implementation.

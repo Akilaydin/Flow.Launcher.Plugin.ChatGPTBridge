@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Flow.Launcher.Plugin.ChatGPTBridge</AssemblyName>
+    <RootNamespace>Flow.Launcher.Plugin.ChatGPTBridge</RootNamespace>
+    <PackageId>Flow.Launcher.Plugin.ChatGPTBridge</PackageId>
+    <Authors>Akilaydin</Authors>
+    <PackageProjectUrl>https://github.com/Akilaydin/Flow.Launcher.Plugin.ChatGPTBridge</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Akilaydin/Flow.Launcher.Plugin.ChatGPTBridge</RepositoryUrl>
+    <PackageTags>flow-launcher flow-plugin chatgpt</PackageTags>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Images\**\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flow.Launcher.Plugin" Version="5.3.2" />
+  </ItemGroup>
+
+</Project>

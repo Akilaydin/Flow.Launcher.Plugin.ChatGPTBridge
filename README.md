@@ -1,27 +1,20 @@
-# [Project Name]
+# ChatGPT Bridge
 
-[One sentence describing the project.]
+A Flow Launcher plugin that opens prompts in ChatGPT Web, with normal and temporary chat modes, configurable action keywords, and browser selection.
 
-<!-- Keep this file concise. Detailed product behavior belongs in PRODUCT.md; technical design belongs in ARCHITECTURE.md. -->
+## Usage
+
+- Normal chat: `gpt` *your prompt*
+- Temporary chat: `gptt` *your prompt*
+
+Action keywords can be changed in the plugin settings.
+
+## Requirements
+
+- Flow Launcher 2.1.4 or newer.
 
 ## Documentation
 
-- [`PRODUCT.md`](PRODUCT.md) — product vision, scope, requirements and user-facing behavior.
-- [`ARCHITECTURE.md`](ARCHITECTURE.md) — technical architecture, boundaries and technical decisions.
-- [`AGENTS.md`](AGENTS.md) — instructions for coding agents working in this repository.
-
-## Prerequisites
-
-- [Runtime / SDK / tool and version]
-- [Database / external dependency, if any]
-
-## Configuration
-
-[Describe required configuration and where local secrets should be stored. Do not put real secrets in this file.]
-
-Example:
-
-```text
-SETTING_NAME=<value>
-```
-
+- [`PRODUCT.md`](PRODUCT.md) — currently implemented product behavior and UX rules.
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical structure and invariants.
+- [`AGENTS.md`](AGENTS.md) — repository instructions for coding agents.

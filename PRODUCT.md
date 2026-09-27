@@ -1,55 +1,28 @@
 # Product
 
-`PRODUCT.md` is the source of truth for product behavior and current scope. Technical implementation details belong in `ARCHITECTURE.md`.
+ChatGPT Bridge is a Flow Launcher plugin for opening prompts in ChatGPT Web.
 
-<!--
-Write this document around the actual product, not around this template.
-Keep only sections that are useful and replace the example feature sections with domain-specific ones.
--->
+## Commands
 
-[Describe in a few paragraphs what the product is, who it is for and what problem it solves.]
+The plugin has two independently configurable action keywords. Their defaults are:
 
-[If the product has a central idea, differentiator or important usage context, state it here.]
+- `gpt <prompt>` — open a normal ChatGPT chat.
+- `gptt <prompt>` — open a temporary ChatGPT chat.
 
-## Current scope
+Empty commands are valid: `gpt` opens `https://chatgpt.com/` and `gptt` opens `https://chatgpt.com/?temporary-chat=true`.
 
-[State the current milestone if it matters: Prototype, MVP, V1, etc.]
+The settings panel exposes `Normal chat keyword` and `Temporary chat keyword`. Changes take effect immediately without restarting Flow Launcher.
 
-### In scope
+## Browser selection
 
-- [Capability or behavior that must exist now.]
-- [Capability or behavior that must exist now.]
+The settings panel contains one browser selector:
 
-### Out of scope
+1. `System default`.
+2. Automatically detected Windows browsers.
+3. `Custom executable...`, which opens a Windows `.exe` file picker.
 
-- [Thing intentionally postponed or excluded.]
-- [Thing intentionally postponed or excluded.]
+The default is `System default`. The same browser setting is used for normal and temporary chats.
 
-<!--
-The rest of the document should normally be organized around the product itself.
-Create top-level sections such as Commands, Gameplay, Reminders, Accounts, Payments,
-Notifications, Search, Sharing, Import/Export, Error handling, etc.
-Describe observable behavior, rules, edge cases and user-facing results.
--->
+When `System default` is selected, Flow Launcher's URL-opening API is used. For a configured browser executable, the plugin starts that executable directly with the ChatGPT URL.
 
-## [Core feature / flow / domain area]
-
-[Describe how it works from the product point of view.]
-
-- [Rule or supported behavior.]
-- [Important edge case.]
-- [User-visible result.]
-
-## [Another feature / flow / domain area]
-
-[Describe the next important area of product behavior.]
-
-## Product rules and constraints
-
-- [Stable rule that affects multiple features.]
-- [Important UX, platform, business or scope constraint.]
-
-## Open questions
-
-- [Unresolved product decision.]
-- [Unresolved product decision.]
+If the saved executable no longer exists, the plugin shows `Browser not found` with the subtitle `The configured browser is no longer available.` and a `Choose browser...` button. The button opens the same browser selector used by the settings panel. After the user confirms a replacement, the plugin saves it and retries the original ChatGPT action.

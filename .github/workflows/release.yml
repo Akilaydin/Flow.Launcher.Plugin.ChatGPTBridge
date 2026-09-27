@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Publish
+        shell: pwsh
+        run: dotnet publish .\Flow.Launcher.Plugin.ChatGPTBridge.csproj -c Release -r win-x64 --no-self-contained -o .\artifacts\publish
+
+      - name: Package
+        shell: pwsh
+        run: Compress-Archive -Path .\artifacts\publish\* -DestinationPath .\artifacts\ChatGPTBridge-${{ github.ref_name }}.zip -Force
+
+      - name: Create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${{ github.ref_name }}" ".\artifacts\ChatGPTBridge-${{ github.ref_name }}.zip" --generate-notes --title "${{ github.ref_name }}"
+
